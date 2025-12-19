@@ -38,6 +38,7 @@
       - [`numpy.random.permutation` with `iloc`](#numpyrandompermutation-with-iloc)
       - [`numpy.random.permutation` with `pandas.DataFrame.take`](#numpyrandompermutation-with-pandasdataframetake)
       - [`pandas.DataFrame.sample`](#pandasdataframesample)
+      - [Retrieving data from a dataframe based on data types](#retrieving-data-from-a-dataframe-based-on-data-types)
   - [Using booleans to access and retrieve data from a series and a dataframe](#using-booleans-to-access-and-retrieve-data-from-a-series-and-a-dataframe)
     - [Using booleans to retrieve specific data from a series](#using-booleans-to-retrieve-specific-data-from-a-series)
     - [Using boolean values to retrieve data from a dataframe](#using-boolean-values-to-retrieve-data-from-a-dataframe)
@@ -1507,6 +1508,54 @@ print(df.sample(n=6, replace=True))
 3  Azamat  29.0    Astana      NaN          No
 8   Asgar  30.0      Baku      NaN          No
 9  Gulzar  24.0  Ashgabat  90000.0         Yes
+"""
+```
+
+<hr>
+
+#### Retrieving data from a dataframe based on data types
+
+To retrieve data from a dataframe based on data dtypes, we use `select_dtypes`:
+
+```py
+import pandas as pd
+
+dictionaryForDataFrame = {
+    'Name': ['Aisu', 'Temir', 'Gulnara', 'Azamat', 'Dilyara', 'Fatima', 'Aydin', 'Oğuz', 'Asgar', 'Gulzar'],
+    'Age': [27, 31, np.nan, 29, 34, 22, 28, np.nan, 30, 24],
+    'City': ['Almaty', 'Bishkek', 'Tashkent', 'Astana', np.nan, 'Kazan', 'Istanbul', 'Ankara', 'Baku', 'Ashgabat'],
+    'Salary': [60000.50, 72000.75, 55000.00, np.nan, 75000.10, 50000.00, 68000.50, 62000.00, np.nan, 90000.00],
+    'Is_Employed': ['Yes', 'No', 'Yes', 'No', 'Yes', 'No', np.nan, 'Yes', 'No', 'Yes']
+}
+
+df = pd.DataFrame(dictionaryForDataFrame)
+print(
+  df.dtypes
+)
+"""
+Name            object
+Age            float64
+City            object
+Salary         float64
+Is_Employed     object
+dtype: object
+"""
+
+print(
+  df.select_dtypes(include="number")
+)
+"""
+    Age    Salary
+0  27.0  60000.50
+1  31.0  72000.75
+2   NaN  55000.00
+3  29.0       NaN
+4  34.0  75000.10
+5  22.0  50000.00
+6  28.0  68000.50
+7   NaN  62000.00
+8  30.0       NaN
+9  24.0  90000.00
 """
 ```
 
