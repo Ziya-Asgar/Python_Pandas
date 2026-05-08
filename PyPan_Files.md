@@ -27,6 +27,12 @@
     - [Convert JSON to a dataframe](#convert-json-to-a-dataframe)
     - [Convert a pandas object to JSON](#convert-a-pandas-object-to-json)
   - [XML and HTML: Web Scraping](#xml-and-html-web-scraping)
+  - [Binary Data Formats](#binary-data-formats)
+    - [`pickle` module](#pickle-module)
+    - [Reading Microsoft Excel Files](#reading-microsoft-excel-files)
+      - [Using the `ExcelFile` class](#using-the-excelfile-class)
+      - [Using the `read_excel` method](#using-the-read_excel-method)
+      - [Writing to an excel file](#writing-to-an-excel-file)
 
 ---
 
@@ -703,6 +709,126 @@ len(listVar) # 1
 df = listVar[0]
 print(df.head())
 # Because df has many columns, pandas inserts a line break character \.
+```
+
+---
+
+---
+
+## Binary Data Formats
+
+### `pickle` module
+
+One simple way to store (or serialize) data in binary format is using Python’s built-in `pickle` module. Pandas objects all have a `to_pickle` method that writes the data to disk in pickle format:
+
+```py
+import pandas as pd
+
+df = pd.read_csv("examples/ex1.csv")
+df.to_pickle("examples/frame_pickle")
+```
+
+Pickle files are in general readable only in Python. You can read any "pickled" object stored in a file by using the built-in `pickle` directly, or even more conveniently using `read_pickle`:
+
+```py
+import pandas as pd
+
+print(pd.read_pickle("./examples/frame_pickle"))
+"""
+   a   b   c   d message
+0  1   2   3   4   hello
+1  5   6   7   8   world
+2  9  10  11  12     foo
+"""
+```
+
+> `pickle` is recommended only as a short-term storage format. The problem is that it is hard to guarantee that the format will be stable over time; an object pickled today may not unpickle with a later version of a library. Pandas has tried to maintain backward compatibility when possible, but at some point in the future it may be necessary to “break” the pickle format.
+
+> Pandas has built-in support for several other open source binary data formats, such as HDF5, ORC, and Apache Parquet.
+
+---
+
+### Reading Microsoft Excel Files
+
+Pandas also supports reading tabular data stored in Excel 2003 (and higher) files using either the `ExcelFile` class or `read_excel` function. Internally, these tools use the add-on packages `xlrd` and `openpyxl` to read old-style XLS and newer XLSX files, respectively. These must be installed separately from pandas using pip or conda.
+
+#### Using the `ExcelFile` class
+
+To use `ExcelFile`,
+
+- create an instance by passing a path to an `xls` or `xlsx` file.
+- The returned object has the `sheet_names` attribute, which gives the access to the list of available sheet names in the file.
+- Data stored in a sheet can be read into dataframe using the `parse` method:
+
+```py
+import pandas as pd
+
+xlsx = pd.ExcelFile("./examples/ex1.xlsx")
+print(xlsx.sheet_names) # ['Sheet1']
+
+print(xlsx.parse(sheet_name="Sheet1"))
+"""
+   Unnamed: 0  a   b   c   d message
+0           0  1   2   3   4   hello
+1           1  5   6   7   8   world
+2           2  9  10  11  12     foo
+"""
+```
+
+This Excel table has an index column, so we can indicate that with the `index_col` argument:
+
+```py
+import pandas as pd
+
+xlsx = pd.ExcelFile("./examples/ex1.xlsx")
+
+print(xlsx.parse(sheet_name="Sheet1", index_col=0))
+"""
+   a   b   c   d message
+0  1   2   3   4   hello
+1  5   6   7   8   world
+2  9  10  11  12     foo
+"""
+```
+
+#### Using the `read_excel` method
+
+If you are reading multiple sheets in a file, then it is faster to create the `ExcelFile`, but you can also simply pass the filename to `read_excel`:
+
+```py
+import pandas as pd
+
+df = pd.read_excel("examples/ex1.xlsx", sheet_name="Sheet1")
+print(df)
+"""
+   Unnamed: 0  a   b   c   d message
+0           0  1   2   3   4   hello
+1           1  5   6   7   8   world
+2           2  9  10  11  12     foo
+"""
+```
+
+#### Writing to an excel file
+
+To write pandas data to Excel format, you must first create an `ExcelWriter`, then write data to it using the pandas object's `to_excel` method:
+
+```py
+import pandas as pd
+
+df = pd.read_excel("examples/ex1.xlsx", sheet_name="Sheet1")
+
+writer = pd.ExcelWriter("examples/ex2.xlsx")
+df.to_excel(writer, sheet_name="Sheet1")
+writer.close()
+```
+
+You can also pass a file path to `to_excel` and avoid the `ExcelWriter`:
+
+```py
+import pandas as pd
+
+df = pd.read_excel("examples/ex1.xlsx", sheet_name="Sheet1")
+df.to_excel("./examples/ex2.xlsx")
 ```
 
 ---
