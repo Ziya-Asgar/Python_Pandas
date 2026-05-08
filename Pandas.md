@@ -20,27 +20,26 @@
   - [Accessors](#accessors)
   - [Reading from and Writing to Files](#reading-from-and-writing-to-files)
   - [Pandas and Web APIs](#pandas-and-web-apis)
-  - [Data Wrangling: Join, Combine, and Reshape](#data-wrangling-join-combine-and-reshape)
-    - [Hierarchical Indexing](#hierarchical-indexing)
-      - [Create a series with hierarchical indexing](#create-a-series-with-hierarchical-indexing)
-      - [Selecting subsets of data in series using partial indexing](#selecting-subsets-of-data-in-series-using-partial-indexing)
-      - [Turning hierarchically indexed series into a dataframe](#turning-hierarchically-indexed-series-into-a-dataframe)
-      - [Dataframe with Hierarchical index and columns](#dataframe-with-hierarchical-index-and-columns)
-      - [Checking the number of index levels](#checking-the-number-of-index-levels)
-      - [Selecting subsets of data in a dataframe using partial indexing](#selecting-subsets-of-data-in-a-dataframe-using-partial-indexing)
-      - [Creating standalone `MultiIndex`](#creating-standalone-multiindex)
-      - [Reordering and sorting levels of hierarchical index](#reordering-and-sorting-levels-of-hierarchical-index)
-      - [Indexing with a DataFrame's columns](#indexing-with-a-dataframes-columns)
-    - [Combining and Merging Datasets](#combining-and-merging-datasets)
-      - [Table for an argument reference on `pandas.merge`](#table-for-an-argument-reference-on-pandasmerge)
-      - [Database-Style DataFrame Joins](#database-style-dataframe-joins)
-      - [Merging on Index](#merging-on-index)
-      - [Concatenating along an axis](#concatenating-along-an-axis)
-      - [Combining Data with Overlap](#combining-data-with-overlap)
-    - [Reshaping and Pivoting](#reshaping-and-pivoting)
-      - [Reshaping with Hierarchical Indexing](#reshaping-with-hierarchical-indexing)
-      - [Pivoting “Long” to “Wide” Format](#pivoting-long-to-wide-format)
-      - [Pivoting “Wide” to “Long” Format](#pivoting-wide-to-long-format)
+  - [Hierarchical Indexing](#hierarchical-indexing)
+    - [Create a series with hierarchical indexing](#create-a-series-with-hierarchical-indexing)
+    - [Selecting subsets of data in series using partial indexing](#selecting-subsets-of-data-in-series-using-partial-indexing)
+    - [Turning hierarchically indexed series into a dataframe](#turning-hierarchically-indexed-series-into-a-dataframe)
+    - [Dataframe with Hierarchical index and columns](#dataframe-with-hierarchical-index-and-columns)
+    - [Checking the number of index levels](#checking-the-number-of-index-levels)
+    - [Selecting subsets of data in a dataframe using partial indexing](#selecting-subsets-of-data-in-a-dataframe-using-partial-indexing)
+    - [Creating standalone `MultiIndex`](#creating-standalone-multiindex)
+    - [Reordering and sorting levels of hierarchical index](#reordering-and-sorting-levels-of-hierarchical-index)
+    - [Indexing with a DataFrame's columns](#indexing-with-a-dataframes-columns)
+  - [Combining and Merging Datasets](#combining-and-merging-datasets)
+    - [Table for an argument reference on `pandas.merge`](#table-for-an-argument-reference-on-pandasmerge)
+    - [Database-Style DataFrame Joins](#database-style-dataframe-joins)
+    - [Merging on Index](#merging-on-index)
+    - [Concatenating along an axis](#concatenating-along-an-axis)
+    - [Combining Data with Overlap](#combining-data-with-overlap)
+  - [Reshaping and Pivoting](#reshaping-and-pivoting)
+    - [Reshaping with Hierarchical Indexing](#reshaping-with-hierarchical-indexing)
+    - [Pivoting “Long” to “Wide” Format](#pivoting-long-to-wide-format)
+    - [Pivoting “Wide” to “Long” Format](#pivoting-wide-to-long-format)
   - [Data Aggregation and Group Operations](#data-aggregation-and-group-operations)
     - [Using `groupby` with a series](#using-groupby-with-a-series)
     - [Using `groupby` with a hierarchically indexed series](#using-groupby-with-a-hierarchically-indexed-series)
@@ -201,13 +200,11 @@ A `DataFrame` represents a rectangular table of data and contains an ordered, na
 
 <hr>
 
-## Data Wrangling: Join, Combine, and Reshape
-
-### Hierarchical Indexing
+## Hierarchical Indexing
 
 Hierarchical indexing is an important feature of pandas that enables you to have multiple (two or more) index levels on an axis. Another way of thinking about it is that it provides a way for you to work with higher dimensional data in a lower dimensional form.
 
-#### Create a series with hierarchical indexing
+### Create a series with hierarchical indexing
 
 Here is an example of creating a series with hierarchical indexing. The created index in this example is called `MultiIndex`.
 
@@ -250,7 +247,7 @@ MultiIndex([('a', 1),
 """
 ```
 
-#### Selecting subsets of data in series using partial indexing
+### Selecting subsets of data in series using partial indexing
 
 We can select the subset of the hierarchical indexed data using the partial indexing:
 
@@ -299,7 +296,7 @@ dtype: float64
 """
 ```
 
-#### Turning hierarchically indexed series into a dataframe
+### Turning hierarchically indexed series into a dataframe
 
 Hierarchical indexing plays an important role in reshaping data and forming a pivot table. For example, you can rearrange the hierarchically indexed series into a dataframe using its `unstack` method. The inverse operation of `unstack` is `stack`:
 
@@ -338,7 +335,7 @@ dtype: float64
 """
 ```
 
-#### Dataframe with Hierarchical index and columns
+### Dataframe with Hierarchical index and columns
 
 With a DataFrame, either axis can have a hierarchical index:
 
@@ -392,7 +389,7 @@ b    1             6         7         8
 """
 ```
 
-#### Checking the number of index levels
+### Checking the number of index levels
 
 You can see how many levels an index has by accessing its `nlevels` attribute:
 
@@ -412,7 +409,7 @@ print(df.index.nlevels) # 2
 print(df.columns.nlevels) # 2
 ```
 
-#### Selecting subsets of data in a dataframe using partial indexing
+### Selecting subsets of data in a dataframe using partial indexing
 
 With partial column indexing you can similarly select groups of columns in a dataframe:
 
@@ -438,7 +435,7 @@ b 1          6          7
 """
 ```
 
-#### Creating standalone `MultiIndex`
+### Creating standalone `MultiIndex`
 
 A `MultiIndex` can be created by itself and then reused; the columns in the preceding DataFrame with level names could also be created like this:
 
@@ -458,7 +455,7 @@ MultiIndex([('column1', 'column1.1'),
 """
 ```
 
-#### Reordering and sorting levels of hierarchical index
+### Reordering and sorting levels of hierarchical index
 
 At times you may need to rearrange the order of the levels on an axis or sort the data by the values in one specific level. The `swaplevel` method takes two level numbers or names and returns a new object with the levels interchanged (but the data is otherwise unaltered):
 
@@ -577,7 +574,7 @@ b    2             9        10        11
 """
 ```
 
-#### Indexing with a DataFrame's columns
+### Indexing with a DataFrame's columns
 
 It’s not unusual to want to use one or more columns from a DataFrame as the row index; alternatively, you may wish to move the row index into the DataFrame’s columns. We can do both of this. DataFrame’s `set_index` function will create a new DataFrame using one or more of its columns as the index:
 
@@ -709,9 +706,9 @@ print(df2.reset_index())
 
 <hr>
 
-### Combining and Merging Datasets
+## Combining and Merging Datasets
 
-#### Table for an argument reference on `pandas.merge`
+### Table for an argument reference on `pandas.merge`
 
 `pandas.merge` function arguments
 
@@ -731,7 +728,7 @@ print(df2.reset_index())
 | `validate`    | Verifies if the merge is of the specified type, whether one-to-one, one-to-many, or many-to-many. See the docstring for full details on the options.                                                   |
 | `indicator`   | Adds a special column `_merge` that indicates the source of each row; values will be `"left_only"`, `"right_only"`, or `"both"` based on the origin of the joined data in each row.                    |
 
-#### Database-Style DataFrame Joins
+### Database-Style DataFrame Joins
 
 Merge or join operations combine datasets by linking rows using one or more keys. To do this with pandas, we can use the `merge` method:
 
@@ -1077,7 +1074,7 @@ print(pd.merge(left, right, on="key1", suffixes=("_left", "_right")))
 """
 ```
 
-#### Merging on Index
+### Merging on Index
 
 In some cases, the merge key(s) in a DataFrame will be found in its index (row labels). In this case, you can pass `left_index=True` or `right_index=True` (or both) to indicate that the index should be used as the merge key:
 
@@ -1394,7 +1391,7 @@ f  <NA>    <NA>      <NA>     <NA>      16.0    17.0
 """
 ```
 
-#### Concatenating along an axis
+### Concatenating along an axis
 
 Here is a table of `concat` function arguments:
 
@@ -1704,7 +1701,7 @@ print(pd.concat([df1, df2], ignore_index=True))
 """
 ```
 
-#### Combining Data with Overlap
+### Combining Data with Overlap
 
 If you want to join series with overlap, you can use the series `combine_first` method. This method keeps the data from the first series, if the data is available, and takes the data from the other series if the data from the first series is not available:
 
@@ -1803,11 +1800,11 @@ print(df1.combine_first(df2))
 
 <hr>
 
-### Reshaping and Pivoting
+## Reshaping and Pivoting
 
 There are a number of basic operations for rearranging tabular data. These are referred to as reshape or pivot operations.
 
-#### Reshaping with Hierarchical Indexing
+### Reshaping with Hierarchical Indexing
 
 The `stack` method “rotates” or pivots from the columns in the data to the rows. The `unstack` method pivots from the rows into the columns.
 
@@ -2054,7 +2051,7 @@ three  left      2         5
 """
 ```
 
-#### Pivoting “Long” to “Wide” Format
+### Pivoting “Long” to “Wide” Format
 
 In the `pivot` method, the first two values passed are the columns to be used, respectively, as the row and column index, then finally an optional value column to fill the DataFrame. By omitting the last argument, you obtain a DataFrame with hierarchical columns.
 
@@ -2098,7 +2095,7 @@ two           4  5  6       q  w  t
 """
 ```
 
-#### Pivoting “Wide” to “Long” Format
+### Pivoting “Wide” to “Long” Format
 
 An inverse operation to `pivot` for DataFrames is `pandas.melt`. Rather than transforming one column into many in a new DataFrame, it merges multiple columns into one, producing a DataFrame that is longer than the input.
 
