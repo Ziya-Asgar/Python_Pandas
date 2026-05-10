@@ -25,7 +25,6 @@
   - [Reshaping and Pivoting](#reshaping-and-pivoting)
   - [Data Aggregation and Group Operations](#data-aggregation-and-group-operations)
   - [Time Series](#time-series)
-  - [Introduction to Modeling Libraries in Python](#introduction-to-modeling-libraries-in-python)
 
 <hr>
 
@@ -191,6 +190,4 @@ A `DataFrame` represents a rectangular table of data and contains an ordered, na
 
 <hr>
 
-## Introduction to Modeling Libraries in Python
-
-https://wesmckinney.com/book/modeling
+<hr>
